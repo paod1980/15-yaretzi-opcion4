@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Quince Años - Yaretzi</title>
+  
+  <!-- Fuentes elegantes de Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       ESTILOS GENERALES
+       ========================================================= */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 10px;
+      
+      /* FONDO DEL CASTILLO: 
+         Asegúrate de poner aquí la ruta o enlace a tu imagen de fondo del castillo */
+      background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000&auto=format&fit=crop') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+    }
+
+    /* Superposición para suavizar el fondo general */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(5, 10, 25, 0.4);
+      z-index: 0;
+    }
+
+    /* =========================================================
+       TARJETA PRINCIPAL (RECTÁNGULO TRANSPARENTE CON EFECTO CRISTAL)
+       ========================================================= */
+    .card-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 440px;
+      padding: 30px 20px;
+      border-radius: 24px;
+      
+      /* FONDO SEMI-TRANSPARENTE:
+         rgba(15, 8, 30, 0.45) permite ver el castillo al fondo */
+      background: rgba(15, 8, 30, 0.45);
+      
+      /* DESENFOQUE DE FONDO (Backdrop Filter):
+         Efecto cristal para dar nitidez al texto sobre el castillo */
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+
+      /* MARCO Y SOMBRA DORADOS */
+      border: 2px solid rgba(212, 175, 55, 0.7);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.25), inset 0 0 15px rgba(212, 175, 55, 0.15);
+      text-align: center;
+    }
+
+    /* Sombras en todos los textos para máxima legibilidad */
+    h1, h2, h3, p, span, div {
+      text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.9);
+    }
+
+    /* =========================================================
+       ELEMENTOS DE TEXTO Y ENCABEZADOS
+       ========================================================= */
+    .sub-title {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 3px;
+      font-size: 13px;
+      color: #e2c070;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+    }
+
+    .crown-icon {
+      width: 60px;
+      height: auto;
+      margin: 10px 0;
+      filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.8));
+    }
+
+    .main-name {
+      font-family: 'Cinzel', serif;
+      font-size: 38px;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 10px 0 15px;
+      letter-spacing: 2px;
+    }
+
+    .divider {
+      color: #d4af37;
+      font-size: 14px;
+      margin: 15px 0;
+      letter-spacing: 5px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(180, 100, 150, 0.35);
+      border: 1px solid rgba(255, 182, 193, 0.5);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin: 5px 0;
+      color: #fff;
+    }
+
+    .badge-sub {
+      display: inline-block;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      color: #e2c070;
+      margin-top: 6px;
+    }
+
+    /* =========================================================
+       BLOQUES INTERNOS (Mantenidos oscuros para fácil lectura)
+       ========================================================= */
+    .inner-box {
+      background: rgba(10, 5, 20, 0.55);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: 14px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+
+    .inner-box h4 {
+      font-family: 'Cinzel', serif;
+      color: #e2c070;
+      font-size: 11px;
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .inner-box p {
+      font-size: 13px;
+      color: #f0f0f0;
+      line-height: 1.4;
+    }
+
+    .quote {
+      font-style: italic;
+      font-size: 12px;
+      color: #dedede;
+      margin: 20px 10px;
+      line-height: 1.5;
+    }
+
+    /* =========================================================
+       CUENTA REGRESIVA
+       ========================================================= */
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .countdown-item {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 8px 4px;
+      border-radius: 8px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .countdown-number {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      display: block;
+    }
+
+    .countdown-label {
+      font-size: 8px;
+      color: #a0a0a0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* =========================================================
+       BOTONES DE UBICACIÓN
+       ========================================================= */
+    .btn-gold {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      background: linear-gradient(135deg, #d4af37 0%, #aa820a 100%);
+      color: #000;
+      font-weight: 600;
+      font-size: 12px;
+      text-decoration: none;
+      border-radius: 25px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s;
+    }
+
+    .btn-gold:active {
+      transform: scale(0.98);
+    }
+
+    /* Control de audio flotante */
+    .audio-btn {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      background: rgba(212, 175, 55, 0.8);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      color: #000;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 10;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Contenedor Principal con fondo transparente -->
+  <div class="card-container">
+    
+    <!-- Encabezado -->
+    <div class="sub-title">🦋 MIS QUINCE AÑOS 🦋</div>
+    
+    <!-- Corona/Tiara representativa -->
+    <svg class="crown-icon" viewBox="0 0 24 24" fill="#e2c070">
+      <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
+    </svg>
+
+    <!-- Nombre principal -->
+    <h1 class="main-name">Yaretzi</h1>
+    
+    <div class="divider">❖ ❖ ❖</div>
+
+    <!-- Pases / Invitados -->
+    <p style="font-size: 12px; color: #ccc;">Invitada</p>
+    <p style="font-size: 15px; font-weight: 600; margin-top: 2px;">Claudia Pacheco</p>
+    
+    <div class="badge">🎟️ Pase válido para: 8 personas 🦋</div><br>
+    <div class="badge-sub">🪑 Mesa # 15</div>
+
+    <!-- Padres y Padrinos -->
+    <div class="inner-box">
+      <h4>MIS PADRES</h4>
+      <p>Pablo Orozco y Claudia Pacheco</p>
+      
+      <div style="color: #d4af37; margin: 6px 0;">❖</div>
+      
+      <h4>MIS PADRINOS</h4>
+      <p>Manuel Ferraez y Alma Pacheco</p>
+    </div>
+
+    <!-- Frase dedicada -->
+    <p class="quote">
+      “Hay momentos en la vida que son inolvidables, y compartirlos con los que más quiero los hace más especiales.”
+    </p>
+
+    <div class="divider">❖</div>
+
+    <!-- Fecha y Contador -->
+    <div class="inner-box">
+      <p style="font-weight: 600;">📅 Fecha:<br><span style="font-size: 15px;">20 de febrero de 2027</span></p>
+      
+      <div style="margin-top: 15px;">
+        <p style="font-size: 11px; letter-spacing: 2px; color: #e2c070;">CUENTA REGRESIVA</p>
+        <p style="font-size: 13px; margin-top: 4px;">Falta cada vez menos</p>
+        
+        <div class="countdown-grid">
+          <div class="countdown-item">
+            <span class="countdown-number" id="days">00</span>
+            <span class="countdown-label">Días</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-number" id="hours">00</span>
+            <span class="countdown-label">Horas</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-number" id="minutes">00</span>
+            <span class="countdown-label">Minutos</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-number" id="seconds">00</span>
+            <span class="countdown-label">Segundos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detalles del Evento -->
+    <div class="inner-box" style="text-align: left;">
+      <p style="font-size: 13px; font-weight: 600; color: #e2c070;">💒 Misa: 18:00 hrs</p>
+      <p style="font-size: 11px; color: #ccc; margin-bottom: 12px;">Esquina con Calle 54, C. 133, San José Tecoh, Mérida, Yuc.</p>
+      
+      <p style="font-size: 13px; font-weight: 600; color: #e2c070;">🎉 Recepción: 19:00 hrs</p>
+      <p style="font-size: 11px; color: #ccc; margin-bottom: 12px;">Sala de fiestas: <strong>Los Ceibos</strong><br>Calle 50 x 149 y 151 - Cinco Colonias, Mérida, Yuc.</p>
+    </div>
+
+    <!-- Botones de Google Maps -->
+    <a href="https://maps.google.com" target="_blank" class="btn-gold">📍 UBICACIÓN DE LA IGLESIA</a>
+    <a href="https://maps.google.com" target="_blank" class="btn-gold">📍 UBICACIÓN DEL LOCAL (Los Ceibos)</a>
+
+    <div class="divider">❖</div>
+
+    <p style="font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 2px; color: #e2c070; margin-top: 10px;">
+      CONTAMOS CON TU PRESENCIA
+    </p>
+
+  </div>
+
+  <!-- Botón de música opcional -->
+  <button class="audio-btn" onclick="toggleAudio()" title="Pausar/Reproducir Música">⏸️</button>
+  <audio id="bg-music" loop autoplay>
+    <!-- Reemplaza con el enlace a tu archivo de audio MP3 si dispones de uno -->
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- LÓGICA DE LA CUENTA REGRESIVA -->
+  <script>
+    const eventDate = new Date("Feb 20, 2027 18:00:00").getTime();
+
+    const timer = setInterval(function() {
+      const now = new Date().getTime();
+      const distance = eventDate - now;
+
+      if (distance < 0) {
+        clearInterval(timer);
+        document.getElementById("days").innerText = "00";
+        document.getElementById("hours").innerText = "00";
+        document.getElementById("minutes").innerText = "00";
+        document.getElementById("seconds").innerText = "00";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("days").innerText = days < 10 ? '0' + days : days;
+      document.getElementById("hours").innerText = hours < 10 ? '0' + hours : hours;
+      document.getElementById("minutes").innerText = minutes < 10 ? '0' + minutes : minutes;
+      document.getElementById("seconds").innerText = seconds < 10 ? '0' + seconds : seconds;
+    }, 1000);
+
+    function toggleAudio() {
+      const audio = document.getElementById("bg-music");
+      const btn = document.querySelector(".audio-btn");
+      if (audio.paused) {
+        audio.play();
+        btn.innerText = "⏸️";
+      } else {
+        audio.pause();
+        btn.innerText = "▶️";
+      }
+    }
+  </script>
+</body>
+</html>
