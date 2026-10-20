@@ -266,7 +266,7 @@
             margin: 0 8px;
         }
 
-        /* GRID DE TIQUETE / PASES */
+        /* GRID DE TIQUETE / PASES CON IDS DINÁMICOS */
         .ticket-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -560,12 +560,12 @@
         </div>
     </div>
 
-    <!-- BOTÓN FLOTANTE MÚSICA -->
+    <!-- BOTÓN FLOTANTE MÚSICA Y ARCHIVO DE AUDIO `cancion.mp3` -->
     <button class="audio-control" id="audioBtn" onclick="toggleAudio()" style="display: none;">
         <i class="fas fa-music"></i>
     </button>
-    <audio id="bgMusic" loop>
-        <source src="musica.mp3" type="audio/mpeg">
+    <audio id="bgMusic" loop preload="auto">
+        <source src="cancion.mp3" type="audio/mpeg">
     </audio>
 
     <!-- CONTENIDO PRINCIPAL -->
@@ -596,27 +596,27 @@
                     <div class="ticket-icon"><i class="fas fa-user-check"></i></div>
                     <div class="ticket-info">
                         <h4>Invitado(a)</h4>
-                        <p>Claudia Pacheco</p>
+                        <p id="invitadoNombre">Invitado Especial</p>
                     </div>
                 </div>
                 <div class="ticket-card">
                     <div class="ticket-icon"><i class="fas fa-ticket-alt"></i></div>
                     <div class="ticket-info">
                         <h4>Acceso Personal</h4>
-                        <p>Pase para: 5 personas</p>
+                        <p id="invitadoPases">1 persona</p>
                     </div>
                 </div>
                 <div class="ticket-card">
                     <div class="ticket-icon"><i class="fas fa-chair"></i></div>
                     <div class="ticket-info">
                         <h4>Ubicación</h4>
-                        <p>Mesa # 5</p>
+                        <p id="invitadoMesa">Asignada en recepción</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- PADRES Y PADRINOS CORREGIDOS CON 'y' EN LUGAR DE '&' -->
+        <!-- PADRES Y PADRINOS -->
         <div class="glass-box">
             <div class="family-grid">
                 <div class="family-card">
@@ -699,16 +699,38 @@
             </div>
         </div>
 
-        <!-- MENSAJE FINAL LIMPIO -->
+        <!-- MENSAJE FINAL -->
         <div class="glass-box final-message-card">
             <h2 class="final-message">¡Contamos con tu presencia!</h2>
         </div>
 
     </div>
 
-    <!-- SCRIPTS INTERACTIVOS Y MÚSICA -->
+    <!-- SCRIPTS INTERACTIVOS, LECTURA DINÁMICA DE URL Y MÚSICA -->
     <script>
-        // 1. INICIAR EXPERIENCIA Y REPRODUCIR MÚSICA
+        // 1. LECTURA DINÁMICA DE PARÁMETROS DE LA URL
+        function cargarDatosInvitado() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            function getParam(key) {
+                let val = urlParams.get(key);
+                if (!val) return null;
+                return decodeURIComponent(val.replace(/\+/g, ' ')).trim();
+            }
+
+            const nombre = getParam('nombre') || 'Invitado Especial';
+            const pases = getParam('pases') || '1 persona';
+            const mesa = getParam('mesa') || 'Asignada en recepción';
+
+            document.getElementById('invitadoNombre').innerText = nombre;
+            document.getElementById('invitadoPases').innerText = pases.toLowerCase().includes('persona') ? pases : `Pase para: ${pases} personas`;
+            document.getElementById('invitadoMesa').innerText = mesa.toLowerCase().includes('mesa') ? mesa : `Mesa # ${mesa}`;
+        }
+
+        // Se ejecuta inmediatamente al cargar la página
+        cargarDatosInvitado();
+
+        // 2. INICIAR EXPERIENCIA Y REPRODUCIR MÚSICA
         let bgMusic = document.getElementById('bgMusic');
         let audioBtn = document.getElementById('audioBtn');
         let isPlaying = false;
@@ -721,12 +743,22 @@
                 audioBtn.style.display = 'flex';
             }, 800);
 
-            bgMusic.play().then(() => {
-                isPlaying = true;
-                audioBtn.classList.add('playing');
-            }).catch(e => {
-                console.log("Auto-play prevenido por el navegador, presionar botón de audio.");
-            });
+            if (bgMusic) {
+                bgMusic.load();
+                bgMusic.currentTime = 0;
+                let playPromise = bgMusic.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        isPlaying = true;
+                        audioBtn.classList.add('playing');
+                    }).catch(error => {
+                        console.log("Error al reproducir audio: ", error);
+                        isPlaying = false;
+                        audioBtn.classList.remove('playing');
+                    });
+                }
+            }
         }
 
         function toggleAudio() {
@@ -734,13 +766,14 @@
                 bgMusic.pause();
                 audioBtn.classList.remove('playing');
             } else {
-                bgMusic.play();
-                audioBtn.classList.add('playing');
+                bgMusic.play().then(() => {
+                    audioBtn.classList.add('playing');
+                });
             }
             isPlaying = !isPlaying;
         }
 
-        // 2. CUENTA REGRESIVA
+        // 3. CUENTA REGRESIVA
         const targetDate = new Date("2027-02-20T20:30:00").getTime();
 
         setInterval(function() {
@@ -760,7 +793,7 @@
             }
         }, 1000);
 
-        // 3. CANVAS DE ESTRELLAS ANIMADAS
+        // 4. CANVAS DE ESTRELLAS ANIMADAS
         const canvas = document.getElementById('starsCanvas');
         const ctx = canvas.getContext('2d');
 
